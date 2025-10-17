@@ -4,12 +4,12 @@
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
-  {
+  * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground font-['Lato'] antialiased; 
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Lato', sans-serif;
   }
 }
 
