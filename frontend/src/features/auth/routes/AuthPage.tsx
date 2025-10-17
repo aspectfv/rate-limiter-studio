@@ -14,8 +14,8 @@ function AuthPage() {
       }}>
         <Particles
           particleColors={['#78e26a', '#34d399', '#78e26a']}
-          particleCount={250}
-          particleSpread={15}
+          particleCount={5000}
+          particleSpread={20}
           speed={0.2}
           particleBaseSize={100}
           moveParticlesOnHover={true}
