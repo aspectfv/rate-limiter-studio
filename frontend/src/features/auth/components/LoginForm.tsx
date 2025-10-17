@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Form, useActionData, useNavigation } from "react-router-dom";
 import {
   Card,
   CardDescription,
@@ -21,29 +22,24 @@ import {
 import { motion, AnimatePresence } from "motion/react";
 
 const LoginForm: React.FC = () => {
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const error = useActionData() as string | undefined;
+
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
 
   const email = "demo@ratelimiter.studio";
   const password = "demo";
   const rememberMe = true;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isLoading) return;
+  const [hasError, setHasError] = useState(false);
 
-    setIsLoading(true);
-    setError("");
-
-    setTimeout(() => {
-      if (error === "") {
-        setError("Simulated error! The card should shake.");
-      } else {
-        setError("");
-      }
-      setIsLoading(false);
-    }, 1000);
-  };
+  useEffect(() => {
+    if (error) {
+      setHasError(true);
+      const timeout = setTimeout(() => setHasError(false), 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [error]);
 
   return (
     <motion.div
@@ -52,17 +48,15 @@ const LoginForm: React.FC = () => {
         opacity: 1,
         y: 0,
         scale: 1,
-        x: error ? [-10, 10, -10, 10, 0] : 0,
+        x: hasError ? [-10, 10, -10, 10, 0] : 0,
       }}
-      transition={{ duration: error ? 0.5 : 0.5 }}
+      transition={{ duration: hasError ? 0.5 : 0.5 }}
       className="relative z-10 w-full max-w-md"
     >
       <Card
         className={
           "w-full !gap-4 !py-12 " +
           "bg-black/70 dark:bg-black/70 " +
-          // 💡 **CHANGE 1: Enhanced Card Border and Neon Glow**
-          // Replaced 'border-[#78e26a]/50 shadow-2xl shadow-[#78e26a]/20'
           "border border-[#78e26a] shadow-[0_0_80px_rgba(120,226,106,0.3)] " +
           "backdrop-blur-sm"
         }
@@ -108,7 +102,7 @@ const LoginForm: React.FC = () => {
         </AnimatePresence>
 
         <CardContent className="space-y-6 !px-12 !pb-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <Form method="post" className="space-y-6">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -122,13 +116,14 @@ const LoginForm: React.FC = () => {
               <Input
                 id="email"
                 type="email"
+                name="email"
                 defaultValue={email}
                 className={
                   "h-12 text-base rounded-lg " +
                   "border-[#78e26a]/30 bg-black/40 text-white placeholder:text-gray-500 " +
                   "focus-visible:ring-[#78e26a] focus-visible:ring-offset-black"
                 }
-                disabled={isLoading}
+                disabled={isSubmitting}
               />
             </motion.div>
 
@@ -145,13 +140,14 @@ const LoginForm: React.FC = () => {
               <Input
                 id="password"
                 type="password"
+                name="password"
                 defaultValue={password}
                 className={
                   "h-12 text-base rounded-lg " +
                   "border-[#78e26a]/30 bg-black/40 text-white placeholder:text-gray-500 " +
                   "focus-visible:ring-[#78e26a] focus-visible:ring-offset-black"
                 }
-                disabled={isLoading}
+                disabled={isSubmitting}
               />
             </motion.div>
 
@@ -164,13 +160,14 @@ const LoginForm: React.FC = () => {
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="remember"
+                  name="remember"
                   checked={rememberMe}
                   className={
                     "rounded-sm border-2 border-[#78e26a] " +
                     "data-[state=checked]:bg-[#78e26a] data-[state=checked]:text-black " +
                     "focus-visible:ring-[#78e26a] focus-visible:ring-offset-black"
                   }
-                  disabled={isLoading}
+                  disabled={isSubmitting}
                 />
                 <label
                   htmlFor="remember"
@@ -197,16 +194,13 @@ const LoginForm: React.FC = () => {
                 className={
                   "w-full text-base font-semibold h-12 " +
                   "bg-[#78e26a] text-black " +
-                  // 💡 **CHANGE 2: Intense Initial and Hover Neon Glow for Button**
-                  // Replaced 'shadow-lg shadow-[#78e26a]/60' with custom shadow
                   "shadow-[0_0_20px_rgba(120,226,106,0.8)] " +
-                  // Replaced 'hover:shadow-2xl hover:shadow-[#78e26a]/90' with more intense custom shadow
                   "hover:bg-[#78e26a] hover:shadow-[0_0_60px_rgba(120,226,106,1)] " +
                   "transition-all duration-300"
                 }
-                disabled={isLoading}
+                disabled={isSubmitting}
               >
-                {isLoading ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin mr-2" />
                     Signing in...
@@ -216,7 +210,7 @@ const LoginForm: React.FC = () => {
                 )}
               </Button>
             </motion.div>
-          </form>
+          </Form>
         </CardContent>
 
         <CardFooter className="flex flex-col gap-4 text-center !px-12 !pt-0 !pb-12">

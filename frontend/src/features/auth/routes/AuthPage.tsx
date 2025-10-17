@@ -1,5 +1,5 @@
 import Particles from "@/components/Particles";
-import LoginForm from "../components/LoginForm";
+import { Outlet } from "react-router-dom";
 
 function AuthPage() {
   return (
@@ -25,7 +25,7 @@ function AuthPage() {
       </div>
 
       <div className="relative z-10 flex justify-center items-center min-h-screen p-4">
-        <LoginForm />
+        <Outlet />
       </div>
     </div>
   );

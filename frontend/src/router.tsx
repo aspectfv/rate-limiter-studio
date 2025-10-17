@@ -1,6 +1,8 @@
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { Suspense } from "react";
 import AuthPage from "@/features/auth/routes/AuthPage";
+import LoginForm from "@/features/auth/components/LoginForm";
+import { loginAction } from "@/features/auth/actions";
 
 const router = createBrowserRouter([
   {
@@ -8,24 +10,23 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="auth" replace />,
+        element: <Navigate to="auth/login" replace />,
       },
       {
         path: 'auth',
         element: <AuthPage />,
-        // children: [
-        //   {
-        //     path: 'login',
-        //     element: <LoginForm />,
-        //     loader: loginLoader,
-        //     action: loginAction,
-        //   },
-        //   {
-        //     path: 'register',
-        //     element: <RegisterForm />,
-        //     action: registerAction,
-        //   },
-        // ],
+        children: [
+          {
+            path: 'login',
+            element: <LoginForm />,
+            action: loginAction,
+          },
+          // {
+          //   path: 'register',
+          //   element: <RegisterForm />,
+          //   action: registerAction,
+          // },
+        ],
       },
     ]
   }
