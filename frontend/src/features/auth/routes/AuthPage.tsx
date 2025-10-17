@@ -1,7 +1,7 @@
 import Particles from "@/components/Particles";
 import { Outlet } from "react-router-dom";
 
-function AuthPage() {
+const AuthPage: React.FC = () => {
   return (
     <div className="relative w-screen min-h-screen">
       <div style={{

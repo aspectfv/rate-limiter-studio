@@ -4,6 +4,7 @@ import AuthPage from "@/features/auth/routes/AuthPage";
 import LoginForm from "@/features/auth/components/LoginForm";
 import RegisterForm from "@/features/auth/components/RegisterForm";
 import { loginAction, registerAction } from "@/features/auth/actions";
+import MenuPage from "@/features/menu/routes/MenuPage";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,11 @@ const router = createBrowserRouter([
           },
         ],
       },
-    ]
+      {
+        path: 'menu',
+        element: <MenuPage />,
+      }
+    ],
   }
 ])
 
