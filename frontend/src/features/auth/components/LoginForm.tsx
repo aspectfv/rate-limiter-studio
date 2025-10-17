@@ -61,7 +61,9 @@ const LoginForm: React.FC = () => {
         className={
           "w-full !gap-4 !py-12 " +
           "bg-black/70 dark:bg-black/70 " +
-          "border-[#78e26a]/50 shadow-2xl shadow-[#78e26a]/20 " +
+          // 💡 **CHANGE 1: Enhanced Card Border and Neon Glow**
+          // Replaced 'border-[#78e26a]/50 shadow-2xl shadow-[#78e26a]/20'
+          "border border-[#78e26a] shadow-[0_0_80px_rgba(120,226,106,0.3)] " +
           "backdrop-blur-sm"
         }
       >
@@ -195,8 +197,11 @@ const LoginForm: React.FC = () => {
                 className={
                   "w-full text-base font-semibold h-12 " +
                   "bg-[#78e26a] text-black " +
-                  "shadow-lg shadow-[#78e26a]/60 " +
-                  "hover:bg-[#78e26a] hover:shadow-2xl hover:shadow-[#78e26a]/90 " +
+                  // 💡 **CHANGE 2: Intense Initial and Hover Neon Glow for Button**
+                  // Replaced 'shadow-lg shadow-[#78e26a]/60' with custom shadow
+                  "shadow-[0_0_20px_rgba(120,226,106,0.8)] " +
+                  // Replaced 'hover:shadow-2xl hover:shadow-[#78e26a]/90' with more intense custom shadow
+                  "hover:bg-[#78e26a] hover:shadow-[0_0_60px_rgba(120,226,106,1)] " +
                   "transition-all duration-300"
                 }
                 disabled={isLoading}
