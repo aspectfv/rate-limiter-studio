@@ -32,9 +32,6 @@
       "@/*": [
         "./src/*"
       ],
-      "@features/*": [
-        "./src/features/*"
-      ],
     }
   },
   "include": [

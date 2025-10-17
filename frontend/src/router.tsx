@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { Suspense } from "react";
-import AuthPage from "@features/auth/routes/AuthPage";
+import AuthPage from "@/features/auth/routes/AuthPage";
 
 const router = createBrowserRouter([
   {
