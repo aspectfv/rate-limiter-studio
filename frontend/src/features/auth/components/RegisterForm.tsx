@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Form, Link, useActionData, useNavigation } from "react-router-dom";
+import { Form, useActionData, useNavigation, Link } from "react-router-dom";
 import {
   Card,
   CardDescription,
@@ -13,23 +13,22 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
+  User,
   Mail,
   Lock,
   Zap,
   AlertCircle,
   Loader2,
+  ArrowLeft,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { cn } from "@/lib/utils";
 
-const LoginForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const error = useActionData() as string | undefined;
 
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
-
-  const email = "demo@ratelimiter.studio";
-  const password = "demo";
-  const rememberMe = true;
 
   const [hasError, setHasError] = useState(false);
 
@@ -55,18 +54,27 @@ const LoginForm: React.FC = () => {
     >
       <Card
         className={
-          "w-full !gap-4 !py-12 " +
+          "w-full !gap-4 !py-4 " +
           "bg-black/70 dark:bg-black/70 " +
           "border border-[#78e26a] shadow-[0_0_80px_rgba(120,226,106,0.3)] " +
           "backdrop-blur-sm"
         }
       >
+        <div className="!px-6 !pt-6">
+          <Link
+            to="/auth/login"
+            className="flex items-center text-gray-400 hover:text-[#78e26a] transition-colors text-sm font-medium"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to login
+          </Link>
+        </div>
         <CardHeader className="text-center !px-12 !pb-4 flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-center mb-8"
+            className="text-center mb-4"
           >
             <div className="flex justify-center mb-4">
               <motion.div
@@ -79,10 +87,10 @@ const LoginForm: React.FC = () => {
             </div>
 
             <CardTitle className="text-xl text-[#78e26a] font-semibold pt-1">
-              RateLimiter Studio
+              Create Account
             </CardTitle>
             <CardDescription className="text-gray-400">
-              Sign in to your account
+              Join RateLimiter Studio
             </CardDescription>
           </motion.div>
         </CardHeader>
@@ -109,6 +117,31 @@ const LoginForm: React.FC = () => {
               transition={{ delay: 0.3 }}
               className="space-y-2"
             >
+              <Label htmlFor="fullName" className="text-[#78e26a] font-medium">
+                <User className="size-4 inline-block mr-1 translate-y-[-1px]" />
+                Full Name
+              </Label>
+              <Input
+                id="fullName"
+                type="text"
+                name="fullName"
+                placeholder="John Doe"
+                className={
+                  "h-12 text-base rounded-lg " +
+                  "border-[#78e26a]/30 bg-black/40 text-white placeholder:text-gray-500 " +
+                  "focus-visible:ring-[#78e26a] focus-visible:ring-offset-black"
+                }
+                disabled={isSubmitting}
+                required
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4 }}
+              className="space-y-2"
+            >
               <Label htmlFor="email" className="text-[#78e26a] font-medium">
                 <Mail className="size-4 inline-block mr-1 translate-y-[-1px]" />
                 Email
@@ -117,20 +150,21 @@ const LoginForm: React.FC = () => {
                 id="email"
                 type="email"
                 name="email"
-                defaultValue={email}
+                placeholder="you@example.com"
                 className={
                   "h-12 text-base rounded-lg " +
                   "border-[#78e26a]/30 bg-black/40 text-white placeholder:text-gray-500 " +
                   "focus-visible:ring-[#78e26a] focus-visible:ring-offset-black"
                 }
                 disabled={isSubmitting}
+                required
               />
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.5 }}
               className="space-y-2"
             >
               <Label htmlFor="password" className="text-[#78e26a] font-medium">
@@ -141,53 +175,85 @@ const LoginForm: React.FC = () => {
                 id="password"
                 type="password"
                 name="password"
-                defaultValue={password}
+                placeholder="••••••••"
                 className={
                   "h-12 text-base rounded-lg " +
                   "border-[#78e26a]/30 bg-black/40 text-white placeholder:text-gray-500 " +
                   "focus-visible:ring-[#78e26a] focus-visible:ring-offset-black"
                 }
                 disabled={isSubmitting}
+                required
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.6 }}
+              className="space-y-2"
+            >
+              <Label htmlFor="confirmPassword" className="text-[#78e26a] font-medium">
+                <Lock className="size-4 inline-block mr-1 translate-y-[-1px]" />
+                Confirm Password
+              </Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                name="confirmPassword"
+                placeholder="••••••••"
+                className={
+                  "h-12 text-base rounded-lg " +
+                  "border-[#78e26a]/30 bg-black/40 text-white placeholder:text-gray-500 " +
+                  "focus-visible:ring-[#78e26a] focus-visible:ring-offset-black"
+                }
+                disabled={isSubmitting}
+                required
               />
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="flex justify-between items-center text-sm"
+              transition={{ delay: 0.7 }}
+              className="flex items-start space-x-2 pt-2"
             >
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="remember"
-                  name="remember"
-                  checked={rememberMe}
-                  className={
-                    "rounded-sm border-2 border-[#78e26a] " +
-                    "data-[state=checked]:bg-[#78e26a] data-[state=checked]:text-black " +
-                    "focus-visible:ring-[#78e26a] focus-visible:ring-offset-black"
-                  }
-                  disabled={isSubmitting}
-                />
-                <label
-                  htmlFor="remember"
-                  className="text-gray-400 cursor-pointer text-sm font-medium"
-                >
-                  Remember me
-                </label>
-              </div>
-              <a
-                href="#"
-                className="text-[#78e26a] hover:underline text-sm font-medium"
+              <Checkbox
+                id="agree"
+                name="agree"
+                className={cn(
+                  "mt-0.5 rounded-sm border-2 border-[#78e26a] " +
+                  "data-[state=checked]:bg-[#78e26a] data-[state=checked]:text-black " +
+                  "focus-visible:ring-[#78e26a] focus-visible:ring-offset-black"
+                )}
+                disabled={isSubmitting}
+                required
+              />
+              <label
+                htmlFor="agree"
+                className="text-gray-400 cursor-pointer text-sm leading-snug font-medium"
               >
-                Forgot password?
-              </a>
+                I agree to the{" "}
+                <a
+                  href="#"
+                  className="text-[#78e26a] hover:underline transition-colors"
+                >
+                  Terms and Conditions
+                </a>{" "}
+                and
+                <br className="sm:hidden" />
+                <a
+                  href="#"
+                  className="text-[#78e26a] hover:underline transition-colors block sm:inline-block mt-0.5 sm:mt-0"
+                >
+                  Privacy Policy
+                </a>
+              </label>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
+              transition={{ delay: 0.8 }}
             >
               <Button
                 type="submit"
@@ -203,10 +269,10 @@ const LoginForm: React.FC = () => {
                 {isSubmitting ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                    Signing in...
+                    Creating account...
                   </>
                 ) : (
-                  "Sign In"
+                  "Create Account"
                 )}
               </Button>
             </motion.div>
@@ -217,33 +283,21 @@ const LoginForm: React.FC = () => {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
+            transition={{ delay: 0.9 }}
             className="text-sm text-gray-400"
           >
-            Don't have an account?{" "}
-            <Link // Changed from <a> to <Link>
-              to="/auth/register" // Updated to link to the new register route
+            Already have an account?{" "}
+            <Link
+              to="/auth/login"
               className="text-[#78e26a] font-semibold hover:underline"
             >
-              Sign up
+              Sign in
             </Link>
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="bg-black/40 border border-[#78e26a]/30 p-3 rounded-lg text-sm text-gray-400 shadow-md shadow-[#78e26a]/10"
-          >
-            <p className="text-white">Demo Credentials:</p>
-            <p className="text-[#78e26a] font-mono mt-1">
-              demo@ratelimiter.studio / demo
-            </p>
-          </motion.div>
         </CardFooter>
       </Card>
     </motion.div>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

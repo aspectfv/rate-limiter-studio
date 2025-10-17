@@ -2,7 +2,8 @@ import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom"
 import { Suspense } from "react";
 import AuthPage from "@/features/auth/routes/AuthPage";
 import LoginForm from "@/features/auth/components/LoginForm";
-import { loginAction } from "@/features/auth/actions";
+import RegisterForm from "@/features/auth/components/RegisterForm";
+import { loginAction, registerAction } from "@/features/auth/actions";
 
 const router = createBrowserRouter([
   {
@@ -21,11 +22,11 @@ const router = createBrowserRouter([
             element: <LoginForm />,
             action: loginAction,
           },
-          // {
-          //   path: 'register',
-          //   element: <RegisterForm />,
-          //   action: registerAction,
-          // },
+          {
+            path: 'register',
+            element: <RegisterForm />,
+            action: registerAction,
+          },
         ],
       },
     ]
@@ -37,4 +38,3 @@ export const AppRouter = () => (
     <RouterProvider router={router} />
   </Suspense>
 );
-

@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 function AuthPage() {
   return (
-    <div className="relative w-screen h-screen overflow-hidden">
+    <div className="relative w-screen min-h-screen">
       <div style={{
         position: 'fixed',
         top: 0,
