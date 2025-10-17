@@ -31,7 +31,10 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ]
+      ],
+      "@features/*": [
+        "./src/features/*"
+      ],
     }
   },
   "include": [
